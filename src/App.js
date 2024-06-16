@@ -1,25 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LoginPage from "./newcomponents/loginPage";
+import Callback from "./newcomponents/callback.js";
+import CreateExam from "./newcomponents/createExam.js";
+import ExamsPage from "./newcomponents/exam.js";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import MainPage from "./components/Home";
+
+class App extends Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login/callback" component={<Callback />} />
+          <Route path="/create-exam" component={<CreateExam />} />
+          <Route exact="/exams" component={<ExamsPage />} />
+        </Routes>
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;
