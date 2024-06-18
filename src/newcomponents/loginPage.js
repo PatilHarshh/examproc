@@ -1,34 +1,34 @@
-// LoginPage.js
-
 import React, { useEffect } from "react";
-import { auth, provider } from "../firebase"; // Import provider from firebase
+import { supabase } from "../supabaseClient.js";
 import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+  async function loginWithGoogle() {
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+  }
+
+  async function getUser() {
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (user) {
         navigate("/");
       }
-    });
-
-    return unsubscribe; // Clean up listener on unmount
-  }, [navigate]);
-
-  const loginWithGoogle = async () => {
-    try {
-      const result = await auth.signInWithPopup(provider); // Use provider for sign in
-
-      // Navigate to home page if login is successful
-      if (result.user) {
-        navigate("/");
-      }
-    } catch (error) {
-      console.error("Google sign in error", error.message);
+      console.log(user);
+    } catch (e) {
+      console.log(e);
     }
-  };
+  }
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
     <div>
       <section className="bg-white">
@@ -39,12 +39,10 @@ const LoginPage = () => {
               src="https://raw.githubusercontent.com/imabhinavawasthi/coding75-app/main/public/images/login.jpg"
               className="absolute inset-0 h-full w-full object-cover opacity-80"
             />
-
             <div className="bg-[#4285F4]/80 hidden lg:relative lg:block lg:p-12">
               <h1 className="mt-6 font-bold text-gray-900 text-lg md:text-2xl">
                 Welcome to ExamProc 🚀
               </h1>
-
               <p className="text-white mt-4 leading-relaxed text-gray-500">
                 Simplifying Exam Supervision: Effortless Proctoring Solutions
                 Tailored for Today's Needs.
@@ -59,7 +57,6 @@ const LoginPage = () => {
                     <h1 className="mt-6 font-bold text-gray-900 text-lg md:text-2xl">
                       Welcome to ExamProc 🚀
                     </h1>
-
                     <p className="mt-4 leading-relaxed text-gray-500">
                       Simplifying Exam Supervision: Effortless Proctoring
                       Solutions Tailored for Today's Needs.
@@ -68,7 +65,7 @@ const LoginPage = () => {
                   <button
                     onClick={loginWithGoogle}
                     type="button"
-                    className="text-white w-full  bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-between mr-2 mb-2"
+                    className="text-white w-full bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-between mr-2 mb-2"
                   >
                     <svg
                       className="mr-2 -ml-1 w-4 h-4"

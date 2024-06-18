@@ -3,16 +3,31 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.20",
     "@supabase/supabase-js": "^2.43.5",
+    "@tensorflow-models/coco-ssd": "^2.2.3",
+    "@tensorflow/tfjs": "^4.20.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "bootstrap": "^5.3.3",
+    "detectrtc": "^1.4.1",
     "firebase": "^10.12.2",
+    "https-browserify": "^1.0.0",
     "lucide-react": "^0.395.0",
+    "network-speed": "^2.1.1",
     "react": "^18.3.1",
+    "react-bootstrap": "^2.10.2",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.23.1",
     "react-scripts": "5.0.1",
+    "react-webcam": "^7.2.0",
+    "speed-test": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "sweetalert": "^2.1.2",
+    "url": "^0.11.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
@@ -40,8 +55,14 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "@babel/preset-react": "^7.24.7",
     "autoprefixer": "^10.4.19",
+    "babel-loader": "^9.1.3",
+    "css-loader": "^7.1.2",
     "postcss": "^8.4.38",
+    "style-loader": "^4.0.0",
     "tailwindcss": "^3.4.4"
   }
 }

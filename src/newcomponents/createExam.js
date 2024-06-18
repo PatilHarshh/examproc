@@ -6,7 +6,7 @@ import Navbar from "./Navbar.js";
 import { Footer } from "./Footer.js";
 
 const CreateExam = () => {
-  const navigate = useNavigate(); // Use useNavigate instead of useHistory
+  const navigate = useNavigate();
   const [userDetails, setUserDetails] = useState(null);
   const [examLink, setExamLink] = useState("");
   const [timeGiven, setTimeGiven] = useState(0);
@@ -19,11 +19,15 @@ const CreateExam = () => {
 
   async function getUser() {
     try {
-      const { data: user, error } = await supabase.auth.user();
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
+      if (error) throw error;
       if (user) {
         setUserDetails(user);
       } else {
-        navigate("/login"); // Redirect to login page if user is not authenticated
+        navigate("/login");
       }
     } catch (error) {
       console.error("Error fetching user:", error.message);
@@ -34,30 +38,31 @@ const CreateExam = () => {
   async function createExam(e) {
     e.preventDefault();
     try {
-      const { data, error } = await supabase.from("exam-details").insert([
-        {
-          form_link: examLink,
-          time: timeGiven,
-          user: userDetails?.email,
-          exam_name: examName,
-          proctoring_enabled: proctoringEnabled,
-        },
-      ]);
+      const { data, error } = await supabase
+        .from("exam_details")
+        .insert([
+          {
+            form_link: examLink,
+            time: parseInt(timeGiven, 10), // Ensure timeGiven is an integer
+            user_email: userDetails?.email,
+            exam_name: examName,
+            proctoring_enabled: proctoringEnabled,
+          },
+        ])
+        .select();
+      if (error) throw error;
 
       if (data) {
-        navigate("/exams"); // Navigate to exams page after successful exam creation
-      } else {
-        console.error("Error creating exam:", error.message);
-        alert("Error occurred while creating exam.");
+        navigate("/exams");
       }
     } catch (error) {
       console.error("Error creating exam:", error.message);
-      alert("Error occurred while creating exam.");
+      alert(`Error occurred while creating exam: ${error.message}`);
     }
   }
 
   if (!userDetails) {
-    return <LoadingPage />; // Render loading page while fetching user details
+    return <LoadingPage />;
   }
 
   return (

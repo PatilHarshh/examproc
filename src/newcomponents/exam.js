@@ -6,7 +6,7 @@ import Navbar from "./Navbar.js";
 import ExamCard from "./examCard.js";
 
 const ExamsPage = () => {
-  const navigate = useNavigate(); // Use useNavigate hook instead of useHistory
+  const navigate = useNavigate();
 
   const [userDetails, setUser] = useState(null);
   const [exams, setExams] = useState(null);
@@ -19,7 +19,7 @@ const ExamsPage = () => {
       if (user) {
         setUser(user);
       } else {
-        navigate("/login"); // Use navigate instead of history.replace
+        navigate("/login");
       }
     } catch (e) {
       console.log(e);
@@ -30,7 +30,7 @@ const ExamsPage = () => {
   async function getExams() {
     try {
       const { data: examdetails, error } = await supabase
-        .from("exam-details")
+        .from("exam_details")
         .select("*");
 
       if (examdetails) {
